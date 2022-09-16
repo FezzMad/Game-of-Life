@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <ncurses.h>
 
 #include "draw.h"
 #include "constants.h"
@@ -46,7 +45,7 @@ void drawSelectingDrawing(int (*print)(const char *format, ...)) {
   print("Enter the name of the prepared picture with the extension 'txt':\n");
 }
 
-void drawGameManual(int (*print)(const char *format, ...)) {
+void drawGameHelp(int (*print)(const char *format, ...)) {
   print("==================================================================================\n");
   print("                                                                                  \n");
   print(" To add a new cell to the field, activate the cursor using the 'K' key            \n");
@@ -66,7 +65,7 @@ void drawGameManual(int (*print)(const char *format, ...)) {
 
 }
 
-void drawInputManual(int (*print)(const char *format, ...)) {
+void drawInputHelp(int (*print)(const char *format, ...)) {
   print("==================================================================================\n");
   print("                                                                                  \n");
   print("                    Enter the coordinates to start the game.                      \n");
@@ -151,9 +150,5 @@ void drawInfinity(int (*print)(const char *format, ...)) {
 }
 
 void drawHint(int (*print)(const char *format, ...)) {
-  print("==================================================================================\n");
-  print("                                                                                  \n");
   print("                              Press 'H' for help.                                 \n");
-  print("                                                                                  \n");
-  print("==================================================================================\n");
 }

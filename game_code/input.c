@@ -1,49 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <ncurses.h>
 
 #include "input.h"
-#include "control.h"
+#include "tools.h"
 #include "constants.h"
 #include "draw.h"
 #include "files.h"
+#include "tools.h"
 
-
-#include "control.h"
-
-void clean_stdin() {
-  int c;
-  do {
-    c = getchar();
-  } while (c != '\n' && c != EOF);
-}
-
-int isIntNumber(char ch) {
-  if (ch >= '0' && ch <= '9')
-    return 1;
-  else
-    return 0;
-}
-
-int charToInt(char ch) {
-    return ch - 48;
-}
-
-void stringToMatrix(char *str, int **matrix) {
-  int i = 0;
-  int j = 0;
-  int k = 0;
-  while(str[i] != '\0') {
-    if (isIntNumber(str[i])) {
-      matrix[j][k] = charToInt(str[i]);
-      k++;
-    } else if (str[i] == '\n') {
-        j++;
-        k = 0;
-    }
-    i++;
-  }
-}
 
 char *inputString() {
     char *str = malloc(sizeof(char));
@@ -67,7 +31,7 @@ void inputCoordinatesFromFile(int **a, int n, int m) {
   free(drawing);
 }
 
-int inputCoordinatesFromHuman(int **a, int n, int m) {
+void inputCoordinatesFromHuman(int **a, int n, int m) {
   int isSuccess = 1;
   int x = 0;
   int y = 0;
@@ -92,5 +56,4 @@ int inputCoordinatesFromHuman(int **a, int n, int m) {
       end = 1;
     }
   }
-  return isSuccess;
 }

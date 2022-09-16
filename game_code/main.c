@@ -8,6 +8,7 @@
 #include "control.h"
 #include "input.h"
 #include "logic.h"
+#include "tools.h"
 
 
 int main() {
@@ -27,7 +28,7 @@ int main() {
     drawSelectingDrawing(printf);
     inputCoordinatesFromFile(field, HEIGHT, WIDTH);
   } else {
-    drawInputManual(printf);
+    drawInputHelp(printf);
     inputCoordinatesFromHuman(field, HEIGHT, WIDTH);
   }
   
@@ -43,7 +44,7 @@ int main() {
   int isPause = 0;
   int isMovement = 1;
   int isCursor = 0;
-  int isManual = 0;
+  int isHelp = 0;
 
   while (!isExit && !isDeath && isMovement) {
     usleep(SPEED_GAME);
@@ -54,15 +55,15 @@ int main() {
       isMovement = update(&field, HEIGHT, WIDTH);
     }
 
-    if (!isManual) {
+    if (!isHelp) {
       drawField(printw, field, HEIGHT, WIDTH, k_x, k_y);
       drawHint(printw);
     } else {
       isPause = 1;
-      drawGameManual(printw);
+      drawGameHelp(printw);
     }
 
-    gameControl(toUpperCase(getch()), &isManual, &isPause, &isExit, &isCursor, &SPEED_GAME, &k_x, &k_y,
+    gameControl(toUpperCase(getch()), &isHelp, &isPause, &isExit, &isCursor, &SPEED_GAME, &k_x, &k_y,
                 field);
 
     if (!countAlive(field, HEIGHT, WIDTH))

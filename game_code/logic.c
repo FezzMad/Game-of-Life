@@ -1,8 +1,10 @@
 #include <stdlib.h>
-#include "logic.h"
 
-// проверяет, будет ли жить клетка в следующий ход
-int check_life(int **matrix, int n, int m, int row, int column) {
+#include "logic.h"
+#include "tools.h"
+
+
+int checkLife(int **matrix, int n, int m, int row, int column) {
   int **neighbors;
   allocate(&neighbors, 8, 2);
   int counter = -1;
@@ -39,23 +41,12 @@ int check_life(int **matrix, int n, int m, int row, int column) {
   return isSuccess;
 }
 
-// выделение памяти для матрицы
-int allocate(int ***matrix, int n, int m) {
-  int isSuccess = 0;
-  *matrix = (int **)malloc(n * m * sizeof(int) + n * sizeof(int *));
-  int *ptr = (int *)(*matrix + n);
-  for (int i = 0; i < n; i++)
-    (*matrix)[i] = ptr + m * i;
-  return isSuccess;
-}
-
-// возвращает матрицу 'нового' поколения клеток
 int update(int ***matrix, int n, int m) {
   int **matrix_new;
   allocate(&matrix_new, n, m);
   for (int i = 0; i < n; i++)
     for (int j = 0; j < m; j++)
-      matrix_new[i][j] = check_life(*matrix, n, m, i, j);
+      matrix_new[i][j] = checkLife(*matrix, n, m, i, j);
   int changes_check = 1;
   for (int i = 0; i < n; i++)
     for (int j = 0; j < m; j++)
@@ -66,9 +57,6 @@ int update(int ***matrix, int n, int m) {
   return !changes_check;
 }
 
-
-
-// подсчёт живых клеток
 int countAlive(int **matrix, int n, int m) {
   int result = 0;
   for (int i = 0; i < n; i++)

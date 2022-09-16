@@ -3,23 +3,8 @@
 
 #include "control.h"
 #include "constants.h"
-#include "draw.h"
+#include "tools.h"
 
-
-char toUpperCase(char letter) {
-    if (letter >= 'a' && letter <= 'z') {
-        letter -= 32;
-    }
-    return letter;
-}
-
-void zeroMatrix(int **a, int n, int m) {
-  for (int i = 0; i < n; i++) {
-    for (int j = 0; j < m; j++) {
-      a[i][j] = 0;
-    }
-  }
-}
 
 void inputControl(int *isMatrix) {
 char command = toUpperCase(getchar());
@@ -38,75 +23,78 @@ void switchControl(int *flag) {
   }
 }
 
-void gameControl(char command, int *isManual, int *isPause, int *isExit, int *isCursor,
-                 int *SPEED_GAME, int *k_x, int *k_y, int **field) {
-  switch (command) {
-    case PAUSE: {
-      switchControl(isPause);
-      break;
+void coordinatesCursorControl(int isCursor, int *k_x, int *k_y) {
+  if (isCursor == 1) {
+      *k_x = WIDTH / 2;
+      *k_y = HEIGHT / 2;
+    } else if (isCursor == 0) {
+      *k_x = -1;
+      *k_y = -1;
     }
-    case EXIT:
-      *isExit = 1;
-      break;
-    case MANUAL: {
-      switchControl(isManual);
+}
+
+void cursorUpControl(int isCursor, int *k_y) {
+  if (isCursor)
+      if (*k_y > 0)
+        (*k_y)--;
+}
+
+void cursorDownControl(int isCursor, int *k_y) {
+   if (isCursor)
+      if (*k_y < HEIGHT - 1)
+        (*k_y)++;
+}
+
+void cursorLeftControl(int isCursor, int *k_x) {
+   if (isCursor)
+      if (*k_x > 0)
+        (*k_x)--;
+}
+
+void cursorRightControl(int isCursor, int *k_x) {
+   if (isCursor)
+      if (*k_x < WIDTH - 1)
+        (*k_x)++;
+}
+
+void enterLifeControl(int isCursor, int **field, int k_x, int k_y) {
+ if (isCursor) {
+      field[k_y][k_x] = 1;
     }
-  }
-  if (command >= '0' && command <= '9') {
-    changeSpeedGame(command, SPEED_GAME);
-  }
-  cursorControl(command, isCursor, k_x, k_y, field);
 }
 
 void cursorControl(char command, int *isCursor, int *k_x, int *k_y,
                    int **field) {
   switch (command) {
   case CURSOR_SWITCH: {
-    if (*isCursor == 0) {
-      *isCursor = 1;
-      *k_x = WIDTH / 2;
-      *k_y = HEIGHT / 2;
-    } else if (*isCursor == 1) {
-      *isCursor = 0;
-      *k_x = -1;
-      *k_y = -1;
-    }
+    switchControl(isCursor);
+    coordinatesCursorControl(*isCursor, k_x, k_y);
     break;
   }
   case CURSOR_UP: {
-    if (*isCursor)
-      if (*k_y > 0)
-        (*k_y)--;
+    cursorUpControl(*isCursor, k_y);
     break;
   }
   case CURSOR_DOWN: {
-    if (*isCursor)
-      if (*k_y < HEIGHT - 1)
-        (*k_y)++;
+    cursorDownControl(*isCursor, k_y);
     break;
   }
   case CURSOR_LEFT: {
-    if (*isCursor)
-      if (*k_x > 0)
-        (*k_x)--;
+    cursorLeftControl(*isCursor, k_x);
     break;
   }
   case CURSOR_RIGHT: {
-    if (*isCursor)
-      if (*k_x < WIDTH - 1)
-        (*k_x)++;
+    cursorRightControl(*isCursor, k_x);
     break;
   }
   case ENTER_LIFE: {
-    if (*isCursor) {
-      field[*k_y][*k_x] = 1;
-    }
+    enterLifeControl(*isCursor, field, *k_x, *k_y);
     break;
   }
   }
 }
 
-void changeSpeedGame(char speedMode, int *speedGame) {
+void speedGameControl(char speedMode, int *speedGame) {
   switch (speedMode) {
   case '1':
     *speedGame = 1600000;
@@ -139,16 +127,28 @@ void changeSpeedGame(char speedMode, int *speedGame) {
     *speedGame = 1561;
     break;
   default:
-    *speedGame = 100000;
+    *speedGame = DEFAULT_SPEED;
   }
 }
 
-int changeSpeedGameScanf() {
-  int speedMode;
-  int speedGame;
-  scanf("%d", &speedMode);
-  changeSpeedGame(speedMode + '0', &speedGame);
-  return speedGame;
+void gameControl(char command, int *isHelp, int *isPause, int *isExit, int *isCursor,
+                 int *SPEED_GAME, int *k_x, int *k_y, int **field) {
+  switch (command) {
+    case PAUSE: {
+      switchControl(isPause);
+      break;
+    }
+    case EXIT:
+      *isExit = 1;
+      break;
+    case HELP: {
+      switchControl(isHelp);
+    }
+  }
+  if (command >= '0' && command <= '9') {
+    speedGameControl(command, SPEED_GAME);
+  }
+  cursorControl(command, isCursor, k_x, k_y, field);
 }
 
 

@@ -8,8 +8,8 @@ void drawSelectingInput(int (*print)(const char *format, ...));
 void drawSelectingDrawing(int (*print)(const char *format, ...));
 
 void drawHint(int (*print)(const char *format, ...));
-void drawInputManual(int (*print)(const char *format, ...));
-void drawGameManual(int (*print)(const char *format, ...));
+void drawInputHelp(int (*print)(const char *format, ...));
+void drawGameHelp(int (*print)(const char *format, ...));
 
 void drawGreeting(int (*print)(const char *format, ...));
 void drawDeath(int (*print)(const char *format, ...));
