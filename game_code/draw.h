@@ -1,7 +1,9 @@
 #ifndef GAME_CODE_DRAW_H_
 #define GAME_CODE_DRAW_H_
 
-void drawField(int (*print)(const char *format, ...), int **A, int N, int M, int k_x, int k_y);
+#include "control.h"
+
+void drawField(int (*print)(const char *format, ...), int **A, int N, int M, struct Cursor cursor);
 
 void drawOutOfField(int (*print)(const char *format, ...));
 void drawSelectingInput(int (*print)(const char *format, ...));

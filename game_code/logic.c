@@ -1,7 +1,10 @@
 #include <stdlib.h>
+#include <ncurses.h>
 
 #include "logic.h"
 #include "tools.h"
+#include "constants.h"
+#include "control.h"
 
 
 int checkLife(int **matrix, int n, int m, int row, int column) {
@@ -63,4 +66,29 @@ int countAlive(int **matrix, int n, int m) {
     for (int j = 0; j < m; j++)
       result += matrix[i][j];
   return result;
+}
+
+void checkDeath(int **field, struct Flags *flags) {
+    if (!countAlive(field, HEIGHT, WIDTH) && !flags->isInput)
+        flags->isDeath = true;
+}
+
+void checkMovement(int ***field, struct Flags *flags) {
+    if (!flags->isPause) {
+        flags->isMovement = update(field, HEIGHT, WIDTH);
+    }
+}
+
+void createField(int ***field) {
+    allocate(field, HEIGHT, WIDTH);
+}
+
+void start() {
+    initscr();
+    noecho();
+    nodelay(stdscr, true);
+}
+
+void end() {
+    endwin();
 }
