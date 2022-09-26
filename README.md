@@ -45,21 +45,7 @@ $ Butterfly.txt
 ![butterfly](materials/Butterfly.gif)
 
 ### Picture from coordinates
-If you answered no, then you will be prompted to enter the image using the coordinates manually
-
-![img](materials/Coordinates.png)
-
-> The coordinates are limited by the 80x20 field
-
-Example of an image from coordinates:
-```
-$ 30 8
-$ 31 9
-$ 29 10
-$ 30 10
-$ 31 10.
-```
-![glider](materials/Glider.gif)
+If you answered "no", then you should draw the image yourself using the cursor. How to use it is written below
 
 ### Control
 
